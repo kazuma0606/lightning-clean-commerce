@@ -1,9 +1,9 @@
-mod adapter;
-mod api;
-mod application;
-mod domain;
-mod infrastructure;
-mod state;
+// mod adapter;
+// mod api;
+// mod application;
+// mod domain;
+// mod infrastructure;
+// mod state;
 
 use axum::Router;
 use axum::serve;
@@ -12,9 +12,10 @@ use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
-use crate::adapter::routes::{AppState, create_product_router};
-use crate::infrastructure::db::Database;
-use crate::infrastructure::repository_impl::SqliteProductRepository;
+use rspc_ts_front::adapter::routes::product_routes::{AppState, create_product_router};
+use rspc_ts_front::application::use_cases::product::manage_product_use_case::ProductUseCase;
+use rspc_ts_front::infrastructure::db::Database;
+use rspc_ts_front::infrastructure::repository_impl::SqliteProductRepository;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -38,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // リポジトリとユースケースの初期化
     let product_repository = SqliteProductRepository::new(database.pool().clone());
-    let product_use_case = application::usecase::ProductUseCase::new(product_repository);
+    let product_use_case = ProductUseCase::new(product_repository);
 
     // アプリケーション状態の作成
     let app_state = Arc::new(AppState { product_use_case });

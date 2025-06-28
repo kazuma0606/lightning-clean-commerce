@@ -10,12 +10,12 @@ use axum::{
 use serde_json::json;
 use std::sync::Arc;
 
-use crate::api::{
+use crate::api::response::api_response::{
     ApiResponse, CreateProductRequest, SearchProductsRequest, UpdateProductRequest,
     UpdateStockRequest,
 };
-use crate::application::usecase::ProductUseCase;
-use crate::domain::repository::ProductRepository;
+use crate::application::use_cases::product::manage_product_use_case::ProductUseCase;
+use crate::domain::repository::product_repository::ProductRepository;
 
 /// アプリケーション状態
 pub struct AppState<R>
@@ -41,8 +41,6 @@ where
         .route("/products/:id/stock/increase", put(increase_stock))
         .route("/products/:id/stock/decrease", put(decrease_stock))
 }
-
-pub use self::create_product_router;
 
 /// 全商品を取得
 async fn get_all_products<R>(

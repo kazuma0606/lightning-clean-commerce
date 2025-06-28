@@ -8,8 +8,10 @@ use std::error::Error;
 use std::fmt;
 use std::sync::Mutex;
 
-use crate::domain::entities::{Product, User};
-use crate::domain::repository::{ProductRepository, UserRepository};
+use crate::domain::entity::product::Product;
+use crate::domain::entity::user::User;
+use crate::domain::repository::product_repository::ProductRepository;
+use crate::domain::repository::user_repository::UserRepository;
 
 /// インメモリユーザーリポジトリのエラー
 #[derive(Debug)]
